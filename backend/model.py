@@ -3,7 +3,10 @@ import torch
 from transformers import CLIPProcessor, CLIPModel
 from PIL import Image
 
-from waste_rules import RULES
+try:
+    from waste_rules import RULES
+except ImportError:
+    from backend.waste_rules import RULES
 
 CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"
 
