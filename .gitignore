@@ -1,0 +1,10 @@
+venv/
+venv311/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+backend/vit-finetuned-waste/
+backend/vit-finetuned-waste-broken/
+*.egg-info/
+.env
