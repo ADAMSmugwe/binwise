@@ -8,3 +8,6 @@ backend/vit-finetuned-waste/
 backend/vit-finetuned-waste-broken/
 *.egg-info/
 .env
+*.sqlite3
+*.db
+media/
