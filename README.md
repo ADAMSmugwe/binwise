@@ -1,5 +1,9 @@
 # BinWise AI Service
 
+<p align="center">
+  <img src="docs/images/binwise-overview.png" alt="BinWise overview" width="700"/>
+</p>
+
 A backend service that looks at a photo of a waste item and tells you which bin it belongs in. Point it at an image, and it'll come back with a bin colour, a category, and a short explanation of why.
 
 Built with Django, CLIP (zero-shot image classification), and Django REST Framework. No training required — it works straight out of the box.
