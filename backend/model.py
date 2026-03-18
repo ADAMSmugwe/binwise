@@ -16,9 +16,11 @@ _model_lock = threading.Lock()
 CONFIDENCE_THRESHOLD = 0.12
 TOP_K = 3
 
+MIXED_WASTE_LABEL = "__mixed__"
 CANDIDATE_LABELS = list(RULES.keys())
 
 PROMPTS = {
+    MIXED_WASTE_LABEL: "a photo of a pile of mixed waste with multiple different types of garbage and rubbish combined",
     "plastic bottle": "a photo of a plastic bottle or plastic container",
     "glass bottle": "a photo of a glass bottle, wine bottle, beer bottle, or glass jar",
     "cardboard box": "a photo of cardboard or a cardboard box",
@@ -50,7 +52,7 @@ _text_labels = None
 def _get_text_inputs():
     global _text_inputs, _text_labels
     if _text_inputs is None:
-        _text_labels = CANDIDATE_LABELS
+        _text_labels = [MIXED_WASTE_LABEL] + CANDIDATE_LABELS
         texts = [PROMPTS[label] for label in _text_labels]
         _text_inputs = _processor(text=texts, return_tensors="pt", padding=True)
     return _text_inputs, _text_labels
@@ -75,6 +77,15 @@ def classify_image(image: Image.Image) -> dict:
     top_indices = torch.topk(probs, k=min(TOP_K, probs.size(0))).indices.tolist()
     top_label = labels[top_indices[0]]
     top_confidence = probs[top_indices[0]].item()
+
+    if top_label == MIXED_WASTE_LABEL:
+        return {
+            "bin": "multiple",
+            "category": "multiple_items",
+            "explanation": "It looks like there are multiple waste items in this photo. Please photograph one item at a time for an accurate result.",
+            "label": "mixed waste",
+            "confidence": round(top_confidence, 2),
+        }
 
     if top_confidence > CONFIDENCE_THRESHOLD:
         rule = RULES[top_label]
