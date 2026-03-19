@@ -24,13 +24,13 @@ class WasteItem(models.Model):
         ('multiple', 'Multiple'),
     ]
 
-    image = models.ImageField('waste_uploads/')
+    image = models.ImageField('waste_uploads')
 
     rule_key = models.CharField(max_length=100)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='unclear')
     waste_bin = models.CharField(max_length=20, choices=BIN_CHOICES, default='gray')
     confidence = models.FloatField(default=0.0)
-    suggestions = models.CharField(max_length=200,null=True, blank=True)
+    suggestions = models.CharField(max_length=500, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -43,17 +43,20 @@ class WasteItem(models.Model):
 
     @property
     def explanation(self):
+        if self.category == 'multiple_items' or self.rule_key == 'mixed waste':
+            return "It looks like there are multiple waste items in this photo. Please photograph one item at a time for an accurate result."
+
+        # Unclear / low confidence
         if self.category == 'unclear':
             if self.suggestions:
-                return f"Not confident enough. Here are the most likely matches.\n{self.suggestions}"
-            else:
-                return "Not confident enough."
-        elif self.category == 'multiple_items' or self.rule_key == "mixed waste":
-            return "It looks like there are multiple waste items in this photo. Please photograph one item at a time for an accurate result."
-        elif self.rule_key in wr.RULES:
-            return wr.RULES[self.rule_key].get('explanation', 'No explanation')
-        else:
-            return "No explanation available."
+                return f"Not confident enough. Most likely matches: {self.suggestions}"
+            return "Not confident enough to classify this item."
+
+        # Normal classification — look up explanation from rules
+        if self.rule_key in wr.RULES:
+            return wr.RULES[self.rule_key].get('explanation', 'No explanation available.')
+
+        return "No explanation available."
 
     def __str__(self):
         return f"{self.item_name} ({self.get_category_display()})"

@@ -4,7 +4,7 @@
   <img src="docs/images/binwise-overview.png" alt="BinWise overview" width="700"/>
 </p>
 
-A backend service that looks at a photo of a waste item and tells you which bin it belongs in. Point it at an image, and it'll come back with a bin colour, a category, and a short explanation of why.
+A fullstack application service that looks at a photo of a waste item and tells you which bin it belongs in. Point it at an image, and it'll come back with a bin color, a category, and a short explanation of why.
 
 Built with Django, CLIP (zero-shot image classification), and Django REST Framework. No training required — it works straight out of the box.
 
@@ -33,8 +33,10 @@ It can also detect when multiple waste items are in one photo and ask the user t
 
 ## Getting started
 
-You'll need Python 3.11. If you're setting up from scratch:
+You'll need Python 3.11 and above. If you don't
+If you're setting up from scratch:
 
+*Linux*
 ```bash
 python3.11 -m venv venv311
 source venv311/bin/activate
@@ -42,16 +44,32 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+*Windows*
+```bash
+python -3.11 -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
 Run the database migrations:
 
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
 Then start the server:
 
+*Linux*
+if venv is already activated, skip the first command.
 ```bash
 source venv311/bin/activate
+python manage.py runserver
+```
+*Windows*
+if venv is already activated, skip the first command.
+```bash
+.\venv\Scripts\activate
 python manage.py runserver
 ```
 
@@ -63,23 +81,33 @@ It'll be running at `http://127.0.0.1:8000`.
 
 ## API endpoints
 
-### `POST /api/classify`
+### `POST /api/classify/`
 
 Send an image as `multipart/form-data` with the key `image`.
 
 ```bash
-curl -X POST -F "image=@photo.jpg" http://127.0.0.1:8000/api/classify
+curl -X POST -F "image=@photo.jpg" http://127.0.0.1:8000/api/classify/
 ```
 
-**Successful classification:**
+## With Postman
+Open Postman app or extension and paste this on the URL
+
+`http://127.0.0.1:8000/api/classify/`
+
+**Successful classification (classification):**
 
 ```json
 {
-  "bin": "blue",
-  "category": "recyclable",
-  "explanation": "Clean plastic bottles can be melted into new products.",
-  "label": "plastic bottle",
-  "confidence": 0.92
+{
+  "id": 5,
+  "image": "/media/image.jpeg",
+  "item_name": "textiles",
+  "waste_bin": "black",
+  "category": "general waste",
+  "confidence": 0.52,
+  "explanation": "Used textiles should be donated or taken to a charity shop if still wearable.",
+  "suggestions": null,
+  "created_at": "2026-03-19T07:29:03.466725Z"
 }
 ```
 
@@ -87,10 +115,12 @@ curl -X POST -F "image=@photo.jpg" http://127.0.0.1:8000/api/classify
 
 ```json
 {
-  "bin": "multiple",
+  "id": 6,
+  "image": "/media/image2.jpeg",
+  "item_name": "mixed waste",
+  "waste_bin": "multiple",
   "category": "multiple_items",
   "explanation": "It looks like there are multiple waste items in this photo. Please photograph one item at a time for an accurate result.",
-  "label": "mixed waste",
   "confidence": 0.74
 }
 ```
@@ -99,10 +129,11 @@ curl -X POST -F "image=@photo.jpg" http://127.0.0.1:8000/api/classify
 
 ```json
 {
-  "bin": "gray",
+  "id": 7,
   "category": "unclear",
   "explanation": "Not confident enough. Here are the most likely matches.",
-  "label": "cardboard box",
+  "item_name": "cardboard box",
+  "waste_bin": "gray",
   "confidence": 0.18,
   "suggestions": [
     { "label": "cardboard box", "bin": "blue", "category": "recyclable", "confidence": 0.18 },
@@ -111,7 +142,7 @@ curl -X POST -F "image=@photo.jpg" http://127.0.0.1:8000/api/classify
 }
 ```
 
-### `GET /api/health`
+### `GET /api/health/`
 
 Returns `{ "status": "ok" }` if the server is running.
 
