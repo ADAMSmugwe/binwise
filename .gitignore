@@ -3,6 +3,8 @@ venv311/
 __pycache__/
 *.pyc
 *.pyo
+	../venv_py312/
+
 .DS_Store
 backend/vit-finetuned-waste/
 backend/vit-finetuned-waste-broken/
@@ -11,3 +13,5 @@ backend/vit-finetuned-waste-broken/
 *.sqlite3
 *.db
 media/
+venv_py312/
+__pycache__/
