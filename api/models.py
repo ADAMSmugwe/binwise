@@ -41,18 +41,19 @@ class WasteItem(models.Model):
         if self.rule_key:
             return self.rule_key
 
-    # Don't forger to fix suggestions
     @property
     def explanation(self):
-        if self.rule_key in wr.RULES:
-            return wr.RULES[self.rule_key].get('explanation', 'No explanation')
-        elif self.rule_key == "mixed waste":
-            return "It looks like there are multiple waste items in this photo. Please photograph one item at a time for an accurate result."
-        else:
+        if self.category == 'unclear':
             if self.suggestions:
                 return f"Not confident enough. Here are the most likely matches.\n{self.suggestions}"
             else:
-                return f"Not confident enough."
+                return "Not confident enough."
+        elif self.category == 'multiple_items' or self.rule_key == "mixed waste":
+            return "It looks like there are multiple waste items in this photo. Please photograph one item at a time for an accurate result."
+        elif self.rule_key in wr.RULES:
+            return wr.RULES[self.rule_key].get('explanation', 'No explanation')
+        else:
+            return "No explanation available."
 
     def __str__(self):
         return f"{self.item_name} ({self.get_category_display()})"
