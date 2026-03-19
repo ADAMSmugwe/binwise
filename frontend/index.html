@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BinWise AI - Waste Classifier</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>BinWise AI Waste Classifier</h1>
+        <p>Upload an image of waste to see which bin it belongs to!</p>
+    </header>
+
+    <main>
+        <!-- Image input -->
+        <div>
+            <input type="file" id="imageInput" accept="image/*">
+            <button id="classifyBtn">Classify Image</button>
+        </div>
+
+        <!-- Image preview -->
+        <div id="previewContainer" style="margin-top:20px;">
+            <img id="imagePreview" src="" alt="Image Preview" width="250" style="display:none; border:1px solid #ccc; padding:5px;">
+        </div>
+
+        <!-- Classification results -->
+        <div id="result" style="margin-top:20px;">
+            <p><strong>Bin:</strong> <span id="bin"></span></p>
+            <p><strong>Category:</strong> <span id="category"></span></p>
+            <p><strong>Explanation:</strong> <span id="explanation"></span></p>
+            <p><strong>Confidence:</strong> <span id="confidence"></span></p>
+        </div>
+    </main>
+
+    <footer style="margin-top:40px;">
+        <p>&copy; 2026 BinWise AI</p>
+    </footer>
+
+    <!-- Include frontend JS -->
+    <script src="{% static 'js/app.js' %}"></script>
+
+    <!-- Wire HTML events to your frontend logic -->
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const classifyBtn = document.getElementById('classifyBtn');
+        const imagePreview = document.getElementById('imagePreview');
+
+        classifyBtn.addEventListener('click', async () => {
+            const file = imageInput.files[0];
+            if (!file) {
+                alert("Please select an image first!");
+                return;
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = () => {
+                imagePreview.src = reader.result;
+                imagePreview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+
+            // Call the classifyImage function in app.js
+            const result = await classifyImage(file);
+
+            if (result) {
+                document.getElementById('bin').innerText = result.bin || "N/A";
+                document.getElementById('category').innerText = result.category || "N/A";
+                document.getElementById('explanation').innerText = result.explanation || "N/A";
+                document.getElementById('confidence').innerText = result.confidence != null ? result.confidence : "N/A";
+            } else {
+                alert("Classification failed. Check console for errors.");
+            }
+        });
+    </script>
+</body>
+</html>
