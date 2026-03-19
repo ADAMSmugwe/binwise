@@ -27,10 +27,10 @@ class WasteItem(models.Model):
     image = models.ImageField('waste_uploads/')
 
     rule_key = models.CharField(max_length=100)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='uncertain')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='unclear')
     waste_bin = models.CharField(max_length=20, choices=BIN_CHOICES, default='gray')
     confidence = models.FloatField(default=0.0)
-    suggestions = models.CharField(null=True)
+    suggestions = models.CharField(max_length=200,null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
