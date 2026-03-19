@@ -180,7 +180,11 @@ def _get_text_features():
             prompts = PROMPTS[label]
             inputs = _processor(text=prompts, return_tensors="pt", padding=True)
             with torch.no_grad():
+                #features = _model.get_text_features(**inputs)
+                #features = features / features.norm(dim=-1, keepdim=True)
                 features = _model.get_text_features(**inputs)
+                if hasattr(features, 'pooler_output'):
+                    features = features.pooler_output
                 features = features / features.norm(dim=-1, keepdim=True)
                 averaged = features.mean(dim=0)
                 averaged = averaged / averaged.norm()
@@ -197,7 +201,11 @@ def classify_image(image: Image.Image) -> dict:
 
     with _model_lock:
         with torch.no_grad():
+            #image_features = _model.get_image_features(**image_inputs)
+            #image_features = image_features / image_features.norm(dim=-1, keepdim=True)
             image_features = _model.get_image_features(**image_inputs)
+            if hasattr(image_features, 'pooler_output'):
+                image_features = image_features.pooler_output
             image_features = image_features / image_features.norm(dim=-1, keepdim=True)
             similarities = (image_features @ text_features.T)[0]
             probs = torch.softmax(similarities * 100, dim=-1)

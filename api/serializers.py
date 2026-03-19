@@ -9,7 +9,7 @@ class WasteItemSerializer(serializers.ModelSerializer):
     item_name = serializers.ReadOnlyField()
     explanation = serializers.ReadOnlyField()
 
-    class File:
+    class Meta:
         model = WasteItem
         fields = [
             'id',
@@ -19,6 +19,6 @@ class WasteItemSerializer(serializers.ModelSerializer):
             'category',
             'confidence',
             'explanation',
-            'suggestions'
+            'suggestions',
             'created_at'
         ]
