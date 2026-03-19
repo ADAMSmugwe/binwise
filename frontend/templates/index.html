@@ -4,23 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <title>BinWise AI - Waste Classifier</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         *{
             background-color: aquamarine;
+        }
+        #hero{
+            height: 300px;
+            width: auto;
+        }
+        .footer img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 40vw;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>BinWise AI Waste Classifier</h1>
-        <p>Upload an image of waste to see which bin it belongs to!</p>
+        <h1>BinWise</h1>
     </header>
 
     <main>
+        <div class="icon">
+            <img id="hero" src="{% static 'images/download.png' %}" alt="">
+        </div>
+        <div id="classify">
+            <button id="classifyBtn">Classify Image</button>
+        </div>
         <div>
             <input type="file" id="imageInput" accept="image/*">
-            <button id="classifyBtn">Classify Image</button>
+
         </div>
 
         <div id="previewContainer" style="margin-top:20px;">
@@ -36,8 +55,10 @@
         </div>
     </main>
 
-    <footer style="margin-top:40px;">
-        <p>&copy; 2026 BinWise AI</p>
+    <footer class="footer" style="margin-top:40px;">
+        <div><img src="{% static 'images/home.jpeg' %}" alt=""></div>
+        <div><img src="{% static 'images/photo.jpeg' %}" alt=""></div>
+        <div><img src="{% static 'images/upload.jpeg' %}" alt=""></div>
     </footer>
 
     <!-- app.js must load before frontend_ui.js -->
