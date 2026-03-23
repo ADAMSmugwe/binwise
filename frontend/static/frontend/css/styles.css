@@ -1,0 +1,99 @@
+:root {
+    --bg-soft-green: #f2f9f2;  /* Light green background from designs */
+    --accent-green: #2d6a4f;   /* Deep green for text/buttons */
+    --card-white: #ffffff;
+    --text-main: #1b4332;
+    --text-muted: #52796f;
+    --radius-lg: 20px;         /* Rounded card style [cite: 13] */
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+body {
+    background-color: var(--bg-soft-green);
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 20px;
+}
+
+.logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-align: center;
+    color: var(--accent-green);
+    margin-bottom: 8px;
+}
+
+.card {
+    background: var(--card-white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+.upload-wrapper {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background: var(--accent-green);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: #e8f5e9;
+    color: var(--accent-green);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Results Formatting [cite: 2, 3] */
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.full-width { grid-column: span 2; }
+
+.card-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.card-value {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.hidden { display: none; }
+
+#imagePreview {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 20px;
+}

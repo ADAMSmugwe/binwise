@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BinWise AI - Waste Classifier</title>
+    <link rel="stylesheet" href="{% static 'frontend/css/styles.css' %}">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1 class="logo">Bin Wise</h1>
+            <p class="subtitle">Eco-friendly waste classification powered by AI</p>
+        </header>
+
+        <main>
+            <section class="card upload-card">
+                <div class="upload-wrapper">
+                    <label for="imageInput" class="btn-secondary">Select Image</label>
+                    <input type="file" id="imageInput" accept="image/*">
+                    <button id="classifyBtn" class="btn-primary">Classify Waste</button>
+                </div>
+
+                <div id="previewContainer" class="image-preview-box">
+                    <img id="imagePreview" src="" alt="Image Preview">
+                </div>
+            </section>
+
+            <section id="resultArea" class="results-grid hidden">
+                <div class="card info-card">
+                    <span class="card-label">Bin Type</span>
+                    <h2 id="bin" class="card-value">--</h2>
+                </div>
+                <div class="card info-card">
+                    <span class="card-label">Category</span>
+                    <h2 id="category" class="card-value">--</h2>
+                </div>
+                <div class="card info-card full-width">
+                    <span class="card-label">Explanation</span>
+                    <p id="explanation" class="card-text">--</p>
+                </div>
+                <div class="card info-card">
+                    <span class="card-label">Confidence</span>
+                    <h2 id="confidence" class="card-value">--</h2>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 BinWise AI</p>
+        </footer>
+    </div>
+
+    <script src="{% static 'frontend/js/app.js' %}"></script>
+    <script src="{% static 'frontend/js/frontend_ui.js' %}"></script>
+</body>
+
+</html>

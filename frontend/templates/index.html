@@ -3,66 +3,490 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Righteous&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BinWise AI - Waste Classifier</title>
     <style>
-        *{
-            background-color: aquamarine;
+                :root {
+    
+            --green-100: #f7fcf5;
+            --green-200: #e5f5e0;
+            --green-300: #c7e9c0;
+            --green-400: #a1d99b;
+            --green-500: #74c476; 
+            --green-600: #41ab5d;
+            --green-700: #238b45;
+            --green-800: #006d2c;
+            --green-900: #00441b; 
+
+            --bg-main: var(--green-100);
+            --primary-action: var(--green-600);
+            --text-primary: var(--green-900);
+            --card-shadow: rgba(0, 68, 27, 0.1);
         }
+        
+        
+        
+        .header {
+            height: 100px;
+        }
+
+
         #hero{
             height: 300px;
             width: auto;
         }
+
+
         .footer img {
+            width: 50px;
+            height: auto;
+        }
+
+
+        .footer div {
+            height: max-content;
+            padding: 0;
+        }
+
+
+
+
+        .footer {
+            height: 80px;
+            background-color: #a1d99b;
+            display: flex;
+            justify-content: space-around; 
+            align-items: center; 
+            width: 100%; 
+        }
+
+
+        .footer img {
+            height: 50px; 
+            margin: 0 15px;
+        }
+
+
+
+        .mobile-container{
+            width: 390px;
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 604px;
+            border: 2px solid black;
+            background-color: --var(--green-100);
+            overflow-y: auto;
+            border-radius: 25px;
+        }
+        
+
+        @media (min-width: 768px) {
+            .mobile-container {
+                height: 95vh;
+                border: 2px solid black;
+            }
+            #hero{
+                height: 300px;
+                width: auto;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-container {
+            width: 400px;
+            }
+        }
+
+
+        #result {
+            transition: opacity 0.5s ease-in;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.5); 
+        }
+
+        .footer-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0; 
             width: 50px;
             height: 50px;
         }
 
-        .footer {
+        .icon {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 40vw;
+            justify-content: center;
+            align-items: center;
         }
+
+        .hero-text {
+            font-size: 24px;
+            color: #006d2c;
+            text-align: center;
+        }
+
+        .image-frame {
+            width: 250px;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .image-frame img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .preview-view {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+
+
+        .footer-btn {
+            width: 28px;
+            height: 28px;
+            stroke: black;
+            stroke-width: 2;
+            fill: none;
+            cursor: pointer;
+        }
+
+        .preview-text {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 10px;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 24px;
+            color: var(--green-800);
+        }
+
+        #preview-heading {
+            color: var(--green-700);
+        }
+
+
+    .preview-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        width: 100%;
+        margin: 20px;
+        justify-content: space-around;
+    }
+
+    .btn-primary {
+        background-color: var(--green-700);
+        color: var(--green-100); 
+        border: none;
+        width: 40%;
+        padding: 10px;
+        border-radius: 16px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary:active {
+        transform: scale(0.96); 
+        background-color: var(--green-800);
+        box-shadow: 0 2px 6px rgba(0, 68, 27, 0.3);
+    }
+
+    .btn-ghost {
+        background: transparent;
+        color: var(--green-700);
+        border: 2px solid var(--green-300);
+        padding: 14px;
+        width: 40%;
+        border-radius: 16px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }   
+
+    .btn-ghost:active {
+        background-color: var(--green-200);
+        border-color: var(--green-400);
+    }
+
+    .results-view {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    #results-view h2 {
+        color: var(--green-900);
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .result-card {
+        border-radius: 24px;
+        padding: 28px;
+        background: var(--green-100);
+    }
+
+    .result-card p {
+        margin: 16px 0;
+        color: var(--green-900);;
+        font-size: 1rem;
+        border-bottom: 1px solid var(--green-100);
+        padding-bottom: 12px;
+    }
+
+    .result-card p:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .result-card strong {
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: var(--green-500);
+        letter-spacing: 1px;
+    }
+
+    .result-card span {
+        color: var(--green-900);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    #bin {
+        font-size: 1.4rem;
+        color: var(--green-800);
+        text-decoration: underline wavy var(--green-300);
+    }   
+
+    .actions-footer {
+        width: 100%;
+        max-width: 380px;
+    }   
+
+    .btn-primary-large {
+        background-color: var(--green-900);
+        color: var(--green-100);
+        border: none;
+        width: 100%;
+        padding: 10px;
+        border-radius: 16px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 16px rgba(0, 68, 27, 0.15);
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary-large:active {
+        transform: scale(0.96);
+        background-color: #003314;
+    }
+
+
+        /* Dialog and modal*/
+
+
+     
+
+        .modal {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: space-around;
+            align-items: center;
+            
+        }
+
+        dialog::backdrop {
+            background: rgba(0,0,0,0.5);
+        }
+
+        dialog {
+            border: none;
+            border-radius: 12px;
+            position: absolute;
+            padding: 0;
+        }
+
+        .modal-content img {
+            height: 300px;
+            width: auto;
+        }
+
+           .modal-content {
+            position: relative;
+            left: 0;
+            top: 0;
+            height: 500px; 
+            margin: 30px;
+            padding: 20px;
+            text-align: center;
+            margin-left: 510px;
+
+        }
+
+        .star-close {
+            padding: 0;
+            border: 0;
+            font-size: 24px;
+            color: red;
+            font-weight: bolder;
+            background: none;
+            float: left;
+        }
+
+
+
+
+        .hidden {
+            display: none;
+        }
+
+        #hidden {
+            display: none;
+        }
+
+
+    .body-container {
+        display: flex;
+        flex-direction: column;
+        
+        align-items: center;
+    }
+
+    #hero-text {
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-size: 18px;
+        padding: 15px;
+    }
+
+    .heading-two {
+        font-family: "Righteous", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 45px;
+        padding-left: 10px;
+        color: #00441b;
+        margin-bottom: 0;
+    }
+
+
     </style>
 </head>
-<body>
-    <header>
-        <h1>BinWise</h1>
-    </header>
-
-    <main>
-        <div class="icon">
-            <img id="hero" src="{% static 'images/download.png' %}" alt="">
-        </div>
-        <div id="classify">
-            <button id="classifyBtn">Classify Image</button>
-        </div>
-        <div>
-            <input type="file" id="imageInput" accept="image/*">
-
-        </div>
-
-        <div id="previewContainer" style="margin-top:20px;">
-            <img id="imagePreview" src="" alt="Image Preview" width="250"
-                 style="display:none; border:1px solid #ccc; padding:5px;">
-        </div>
-
-        <div id="result" style="margin-top:20px;">
-            <p><strong>Bin:</strong> <span id="bin"></span></p>
-            <p><strong>Category:</strong> <span id="category"></span></p>
-            <p><strong>Explanation:</strong> <span id="explanation"></span></p>
-            <p><strong>Confidence:</strong> <span id="confidence"></span></p>
-        </div>
-    </main>
-
-    <footer class="footer" style="margin-top:40px;">
-        <div><img src="{% static 'images/home.jpeg' %}" alt=""></div>
-        <div><img src="{% static 'images/photo.jpeg' %}" alt=""></div>
-        <div><img src="{% static 'images/upload.jpeg' %}" alt=""></div>
-    </footer>
-
-    <!-- app.js must load before frontend_ui.js -->
-    <script src="{% static 'js/app.js' %}"></script>
-    <script src="{% static 'js/frontend_ui.js' %}"></script>
-</body>
+<div class="body-container">
+    <body>
+        <div class="mobile-container">
+            <header id="header">
+                <h1 class="heading-two">BinWise</h1>
+            </header>
+    
+    
+            <main>
+                    <dialog id="congrats-dialog" class="modal-content">
+                        <div class="modal">
+                        <button type="button" id="closeModal" class="star-close">X</button>
+                        <div class="modal-body">
+                            <h2>Congrats!</h2>
+                            <img src="{% static 'images/splash.jpeg' %}" alt="">
+                            <p>A Recyclable at a time saves lives!</p>
+                        </div>
+                        </div>
+    
+                    </dialog>
+    
+    
+    
+                <div id="input-view" class="view">
+                    <div class="icon">
+                        <img id="hero" src="{% static 'images/download.png' %}" alt="">
+                    </div>
+                    <div class="hero-text">
+                        <p id="hero-text"><strong>Upload</strong> or <strong>capture an image</strong> to begin. Binnie will do the rest.</p>
+                    </div>
+                    <div>
+                        <input type="file" id="imageInput" accept="image/*" class="hidden">
+                    </div>
+                </div>
+    
+    
+                <div id="preview-view" class="preview-card preview-view view hidden">
+                    <div class="preview-text">
+                        <h3 id="preview-heading">Confirm Photo</h3>
+                        <p>Is the item clear and centered?</p>
+                    </div>
+                    <div class="image-frame">
+                        <img id="imagePreview" src=" " alt="Captured item">
+                    </div>
+                    <div class="preview-actions">
+                        <button id="classifyBtn" class="btn-primary">
+                            <span>Classify Item</span>
+                        </button>
+                        <button id="retakeBtn" class="btn-ghost">Retake Photo</button>
+                    </div>
+                </div>
+    
+                <div class=" view results-view hidden">
+                    <h2>Classification Results</h2>
+                    <div class="result-card">
+                        <p><strong>Bin:</strong> <span id="bin">Blue</span></p>
+                        <p><strong>Category:</strong> <span id="category">Recyclable</span></p>
+                        <p><strong>Explanation:</strong> <span id="explanation">They are Recyclable because of this and this and this</span></p>
+                    </div>
+                    <div class="actions-footer">
+                        <button id="finishBtn" class="btn-primary-large"> Finish</button>
+                    </div>
+                </div>
+            </main>
+    
+    
+                <footer class="footer">
+                    <button class="footer-btn" id="homeButton">
+                         <svg id="btn-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </button>
+                    <button class="footer-btn" id="cameraButton">
+                            <svg id="btn-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </button>
+                    <button class="footer-btn" id="uploadButton">
+                            <svg id="btn-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    </button>
+                </footer>
+    
+    
+    
+            <!-- app.js must load before frontend_ui.js -->
+            <script src="{% static 'frontend/js/app.js' %}"></script>
+           <script src="{% static '/frontend/js/frontend_ui.js' %}"></script>
+    </body>
+</div>
 </html>
