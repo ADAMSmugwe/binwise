@@ -15,3 +15,4 @@ backend/vit-finetuned-waste-broken/
 media/
 venv_py312/
 __pycache__/
+db.sqlite3

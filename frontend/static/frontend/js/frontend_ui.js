@@ -19,12 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /**
      * STEP 1: UPLOAD TRIGGER (Footer Icon)
-     */
+   
     if (uploadTrigger) {
         uploadTrigger.addEventListener('click', () => {
             imageInput.click();
         });
-    }
+    }  */
 
     /**
      * STEP 2: PREVIEW ONLY (Runs on file selection)
@@ -46,19 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    const cameraButton = document.getElementById('cameraButton');
+/**
+ * CONSOLIDATED FOOTER CONTROLS
+ */
+const cameraButton = document.getElementById('cameraButton');
+const uploadButton = document.getElementById('uploadButton');
 
 if (cameraButton) {
     cameraButton.addEventListener('click', () => {
-        imageInput.setAttribute('capture', 'environment'); 
+        imageInput.setAttribute('capture', 'environment'); // Force Camera on mobile
+        imageInput.value = ''; // Reset to allow re-selecting same photo
         imageInput.click();
     });
 }
 
-const uploadButton = document.getElementById('uploadButton');
 if (uploadButton) {
     uploadButton.addEventListener('click', () => {
-        imageInput.removeAttribute('capture');
+        imageInput.removeAttribute('capture'); // Force Gallery on mobile
+        imageInput.value = ''; // Reset to allow re-selecting same photo
         imageInput.click();
     });
 }
